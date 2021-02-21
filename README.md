@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# React Calculator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Created by Bryan Luo 
 
-## Available Scripts
+## :pushpin: Description
 
-In the project directory, you can run:
+This simple calculator was built as a coding challenge for an internship with Tutorfly. It was built with React. Due to the nature of the project, less attention was placed on the styling and more was placed on the Javascript logic. The calculator takes in a string which is inputted with the "buttons" of the calculator. It then parses
+the string and evaluates the expression. It first uses a stack to convert the infix expression to posfix. Then, it uses another stack to converter from posfix to the actual answer. 
 
-### `npm start`
+## :white_check_mark: Functionalities 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The calculator supports the 4 basic operators: addition, subtraction, multiplication and division \
+It also supports exponents and decimal arithmetic. Furthermore, it supports \
+PEMDAS order of operations.   
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Approaching the Problem & Thought Process
 
-### `npm test`
+On a broad level, I divided the calculator into 3 components: the Calculator itself (App.js), \
+the buttons (Button.js), and the screen (Screen.js). The screen is what shows the digits
+you're putting in, and the buttons represent the buttons of an actual calculator. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+I maintain an "expression" and "result" in the state of the main App.js component. Every time a button is pressed,
+I append the value of that butotn to the expression. If the button was "clear", then instead of appending, I
+reset the state of "expression" and "result" to an empty string. If the button was "GO", then instaed of appending,
+I reset evaluate the state of "expression" to an empty string, I clear the value of "expression", and I set
+the state of "result" to the evaluated expression. 
 
-### `npm run build`
+As mentioned earlier, to evaluate the string, I first convert it from infix to posfix using a stack. Then I use 
+another stack to convert it from posfix to an actual result. The pseudo-code was inspired by Carey Nachenberg's 
+CS 32 class at UCLA, although there were some adjustment I had to make (which are elaborated on below in "Challenges")
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Challenges 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The main challenge was extracting the specific numbers, especially because there are decimals and negative signs.
+However, I overcame this by performing the following logic (high level pseudo code):
+If I reach a digit OR a negative sign that is not proceeded by a digit (i.e. it is a negative sign, not subtraction):
+    Create another variable that keeps going forward until you hit a character that is not a digit
+    or decimal point [this was done in a do-while loop, so if I started at a negative sign, it would at least run once]
+Then, I could take the substring from wherever I am to wherever the other variable ends up at, in order
+to get the number. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Next steps
+If I were to expand this project further, I would add factorial and squart root features. On a high level,
+I could implement square root by replacing all instances of sqrt(x) with x^0.5 (since my calculator already
+supports exponents and decimals). I could implement factorial by replacing all instances of x! with 
+(x*(x-1)*...*1), since my calculator already supports multiplication and PEMDAS order of opeartions (so it would 
+prioritize everything in the parenthesis)
 
-### `npm run eject`
+I would also handle certain semantics better. For example, 4(8) would not work on my calculator...you would have to
+write 4*8 or 4*(8).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I would also handle error cases better. For many of the invalid expressions, my calculator either doesn't
+do anything (and lets the user input a new expression) or crashes and freezes. If I put more time into this
+project, I would do string validation or simply handle the error cases better. 
