@@ -52,3 +52,9 @@ write 4*8 or 4*(8).
 I would also handle error cases better. For many of the invalid expressions, my calculator either doesn't
 do anything (and lets the user input a new expression) or crashes and freezes. If I put more time into this
 project, I would do string validation or simply handle the error cases better. 
+
+## :runner: How to run the calculator
+1. First, clone the repository onto your local device.
+2. Run `npm install` in the directory with the clone.\
+3. Run `npm start` to start the frontend on your local host.
+4. Explore the calculator!
