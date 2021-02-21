@@ -36,30 +36,30 @@ class App extends React.Component {
   }
   greater_or_equal_pre(c,d){
     //returns true if c is greater or equal precedence than d
-    var c = -1;
-    var d = -1; 
+    var c_val = -1;
+    var d_val = -1; 
 
     if(c == '^'){
-      c = 3; 
+      c_val = 3; 
     }
     if (c=='*' || c=='/'){
-      c = 2; 
+      c_val = 2; 
     }
     if (c=='+'||c=='-'){
-      c = 1; 
+      c_val = 1; 
     }
 
 
     if(d == '^'){
-      d = 3; 
+      d_val = 3; 
     }
     if (d=='*' || d=='/'){
-      d = 2; 
+      d_val = 2; 
     }
     if (d=='+'||d=='-'){
-      d = 1; 
+      d_val = 1; 
     }
-    return c >= d;
+    return c_val >= d_val;
   }
   infix_to_posfix(infix){
 
@@ -93,13 +93,21 @@ class App extends React.Component {
        }
        else{
           let curr_op = infix.charAt(i); 
-          let op = stack.pop();
-          while (stack.length!=0&&op!='('&&this.greater_or_equal_pre(op,curr_op)){
-              postfix+=op+' ';
-              op = stack.pop();
+          while (stack.length!=0){
+              let op = stack.pop();
+              if(op!='('&&this.greater_or_equal_pre(op,curr_op)){
+
+                postfix+=op+' ';
+              }
+              else{
+                stack.push(op); //it might be '(' so put it back on, so when we hit the corresponding ')', it can be detected as a stopping point
+                //it might also be a lower precedence operator, which needs to be addressed later
+                //5+5*2
+                //5 5 2 * +
+                // + *
+                break;
+              }
           }
-          stack.push(op); //it might be '(' so put it back on, so when we hit the corresponding ')', it can be detected as a stopping point
-                          //it might also be a lower precedence operator, which needs to be addressed later
           stack.push(curr_op); 
        }
     }
@@ -111,7 +119,7 @@ class App extends React.Component {
   }
 
   evaluateExpression(){
-    let posfix = this.infix_to_posfix(this.state.expression);
+    let posfix =  this.infix_to_posfix(this.state.expression);
     let stack = []
     for(var i = 0; i < posfix.length; i++){
       if(this.isDigit(posfix.charAt(i))||(posfix.charAt(i)=='-'&&(i==0||!this.isDigit(posfix.charAt(i-1))))){
