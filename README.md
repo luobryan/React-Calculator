@@ -47,7 +47,7 @@ supports exponents and decimals). I could implement factorial by replacing all i
 prioritize everything in the parenthesis)
 
 I would also handle certain semantics better. For example, 4(8) would not work on my calculator...you would have to
-write 4*8 or 4*(8).
+write 4\*8 or 4\*(8).
 
 I would also handle error cases better. For many of the invalid expressions, my calculator either doesn't
 do anything (and lets the user input a new expression) or crashes and freezes. If I put more time into this
